@@ -1,0 +1,57 @@
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
+
+const TableName = "balances";
+
+export class balance1655436824901 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.createTable(
+      new Table({
+        name: TableName,
+        columns: [
+          {
+            name: "id",
+            type: "integer",
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: "increment",
+          },
+          {
+            name: "amount",
+            type: "decimal",
+            precision: 10,
+            scale: 2,
+            default: "0.00",
+          },
+          {
+            name: "user_id",
+            type: "integer",
+            isNullable: false,
+          },
+          {
+            name: "created_at",
+            type: "timestamp",
+            default: "now()",
+          },
+          {
+            name: "updated_at",
+            type: "timestamp",
+          },
+        ],
+        foreignKeys: [
+          {
+            name: "userId",
+            columnNames: ["user_id"],
+            referencedColumnNames: ["id"],
+            referencedTableName: "users",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE",
+          },
+        ],
+      })
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable(TableName);
+  }
+}
