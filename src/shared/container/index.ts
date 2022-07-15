@@ -5,6 +5,7 @@ import { AddressRepository } from "@modules/Address/repositories/implementations
 import { IGroupUsersRepository } from "@modules/Groups/repositories/IGroupUsersRepository";
 import { GroupUsersRepository } from "@modules/Groups/repositories/implementations/GroupUsersRepository";
 import { UsersRepository } from "@modules/Users/repositories/implementations/UsersRepository";
+import { IUsersRepository } from "@modules/Users/repositories/IUsersReposiotry";
 // import { IUsersRepository } from "@modules/Users/repositories/IUsersReposiotry";
 
 container.registerSingleton<IAddressRepository>(
@@ -12,7 +13,10 @@ container.registerSingleton<IAddressRepository>(
   AddressRepository
 );
 
-container.registerSingleton("UsersRepository", UsersRepository);
+container.registerSingleton<IUsersRepository>(
+  "UsersRepository",
+  UsersRepository
+);
 
 container.registerSingleton<IGroupUsersRepository>(
   "GroupUsersRepository",

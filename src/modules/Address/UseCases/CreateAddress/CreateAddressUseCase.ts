@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { AppError } from "@shared/errors/AppErrors";
+import { userCpfNotNull } from "@shared/errors/Messages";
 import { Address } from "@shared/infra/typeorm/entities/Address";
 
 import { ICreateAddressDTO } from "../../dtos/ICreateAddress";
@@ -21,7 +22,7 @@ export class CreateAddressUseCase {
     city,
   }: ICreateAddressDTO): Promise<Address> {
     if (!cep) {
-      throw new AppError("Cep não pode ser nulo.");
+      throw new AppError(userCpfNotNull);
     }
 
     const address = await this.addressRepository.create({

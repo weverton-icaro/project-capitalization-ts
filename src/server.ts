@@ -1,3 +1,8 @@
-import { app } from "./app";
+import { App } from "app";
 
-app.listen(3001, () => console.log("Server is running on port 3001!"));
+async function main() {
+  const app = new App();
+  await app.listen();
+}
+
+main();

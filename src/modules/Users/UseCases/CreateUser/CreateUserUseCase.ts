@@ -5,6 +5,13 @@ import { inject, injectable } from "tsyringe";
 import { ICreateUserDTO } from "@modules/Users/dtos/ICreateUserDTO";
 import { IUsersRepository } from "@modules/Users/repositories/IUsersReposiotry";
 import { AppError } from "@shared/errors/AppErrors";
+import {
+  ageNotAllowed,
+  userCpfExists,
+  userEmailExists,
+  userNameIncomplet,
+  userPhoneExists,
+} from "@shared/errors/Messages";
 
 @injectable()
 export class CreateUserUseCase {
@@ -32,23 +39,23 @@ export class CreateUserUseCase {
     const birthDay = dateBirth.format("YYYY-MM-DD");
 
     if (await this.userRepository.findByCpf(cpf)) {
-      throw new AppError(`Email existente em nossa base de dados.`);
+      throw new AppError(userEmailExists);
     }
 
     if (await this.userRepository.findByEmail(email)) {
-      throw new AppError(`CPF existente em nossa base de dados.`);
+      throw new AppError(userCpfExists);
     }
 
     if (await this.userRepository.findByPhone(phone)) {
-      throw new AppError("Telefone existente em nossa base de dados.");
+      throw new AppError(userPhoneExists);
     }
 
     if (!nameComplet[1]) {
-      throw new AppError("Infome o nome completo");
+      throw new AppError(userNameIncomplet);
     }
 
     if (nowBirth.diff(dateBirth, "years") < 16) {
-      throw new AppError("Somente para maiores de 16 anos!");
+      throw new AppError(ageNotAllowed);
     }
 
     const passwordHash = await hash(password, 8);

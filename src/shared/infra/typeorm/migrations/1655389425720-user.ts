@@ -71,6 +71,11 @@ export class CreateUsers1643393796200 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: "term_of_acceptance",
+            type: "boolean",
+            default: null,
+          },
+          {
             name: "created_at",
             type: "timestamp",
             default: "now()",
